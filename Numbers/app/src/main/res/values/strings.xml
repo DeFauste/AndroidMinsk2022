@@ -5,4 +5,6 @@
     <string name="average">Average</string>
     <string name="sum">Sum</string>
     <string name="button_calculated">DO IT</string>
+    <string name="hint_operation">Hint operation</string>
+    <string name="button_send_result">send</string>
 </resources>
