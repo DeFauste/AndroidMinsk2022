@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Numbers</string>
+    <string name="generated_numbers">Generated numbers</string>
+    <string name="text_hint_result">Results</string>
+    <string name="average">Average</string>
+    <string name="sum">Sum</string>
+    <string name="button_calculated">DO IT</string>
 </resources>
