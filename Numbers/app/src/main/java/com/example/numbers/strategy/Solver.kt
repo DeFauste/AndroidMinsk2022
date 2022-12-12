@@ -20,6 +20,7 @@ class MixedListInt : Solver {
     override fun getResult(numbers: ArrayList<Int>): Int {
         val sum = numbers.sum()
         val difference = difference(numbers)
+        //обавить обработку деления на ноль
         return sum / difference
     }
 
