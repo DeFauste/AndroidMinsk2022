@@ -7,4 +7,5 @@
     <string name="button_calculated">DO IT</string>
     <string name="hint_operation">Hint operation</string>
     <string name="button_send_result">send</string>
+    <string name="button_generate">Generate</string>
 </resources>
