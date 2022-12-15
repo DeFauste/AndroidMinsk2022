@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textHintOperation" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/rgStrategy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -43,7 +43,7 @@
             android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/average"
+            android:text="@string/rb_average"
             tools:layout_editor_absoluteX="151dp"
             tools:layout_editor_absoluteY="483dp" />
 
@@ -51,7 +51,7 @@
             android:id="@+id/radioSum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sum"
+            android:text="@string/rb_sum"
             tools:layout_editor_absoluteX="151dp"
             tools:layout_editor_absoluteY="483dp" />
 
@@ -59,7 +59,7 @@
             android:id="@+id/radioMixed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/average"
+            android:text="@string/rb_mixed"
             tools:layout_editor_absoluteX="151dp"
             tools:layout_editor_absoluteY="483dp" />
     </RadioGroup>
@@ -73,5 +73,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/rgStrategy" />
 </androidx.constraintlayout.widget.ConstraintLayout>

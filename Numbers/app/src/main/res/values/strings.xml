@@ -2,10 +2,11 @@
     <string name="app_name">Numbers</string>
     <string name="generated_numbers">Generated numbers</string>
     <string name="text_hint_result">Results</string>
-    <string name="average">Average</string>
-    <string name="sum">Sum</string>
+    <string name="rb_average">Average</string>
+    <string name="rb_sum">Sum</string>
     <string name="button_calculated">DO IT</string>
     <string name="hint_operation">Hint operation</string>
     <string name="button_send_result">send</string>
     <string name="button_generate">Generate</string>
+    <string name="rb_mixed">Mixed</string>
 </resources>

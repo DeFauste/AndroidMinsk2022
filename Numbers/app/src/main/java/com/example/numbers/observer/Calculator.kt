@@ -1,23 +1,39 @@
 package com.example.numbers.observer
 
+import com.example.numbers.strategy.Solver
+import com.example.numbers.strategy.StrategySolver
+import com.example.numbers.usecase.RandomNumbers
+
 object Calculator : Observed {
     init {
-        println("I am in init of A")
+        println("I am in init")
     }
 
-    private var numbers = arrayListOf<Int>()
+    private var numbers = arrayListOf<Int>(0, 0, 0, 0, 0, 0)
+    private lateinit var strategySolver: StrategySolver
+    private var subscriber = arrayListOf<Observer>()
+    private var result = "0"
 
-    var subscriber = arrayListOf<Observer>()
+    fun getResult(): String {
+        return result
+    }
 
     fun getNumbersToString(): String {
         return numbers.toString()
     }
 
-    fun updateNumbers(numbers: ArrayList<Int>) {
+    fun updateNumbers() {
         this.numbers.clear()
-        this.numbers = numbers
+        this.numbers = generateNumbers()
         notifyObservers()
     }
+
+    fun selectOperation(action: Solver) {
+        strategySolver = StrategySolver(action)
+        result = strategySolver.executed(numbers)
+    }
+
+    private fun generateNumbers(): ArrayList<Int> = RandomNumbers().getNumbers()
 
     override fun addObserver(observer: Observer) {
         this.subscriber.add(observer)

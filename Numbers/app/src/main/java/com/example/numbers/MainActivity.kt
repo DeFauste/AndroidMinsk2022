@@ -15,7 +15,7 @@ import com.example.numbers.observer.Subscriber
 
 class MainActivity : AppCompatActivity() {
     private val calculator = Calculator
-
+    lateinit var textNumbers: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,11 +23,33 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        textNumbers = findViewById(R.id.textNumbers)
+        updateTextView()
+    }
 
-        findViewById<TextView>(R.id.textResult).text = calculator.getNumbersToString()
+    private fun updateTextView() {
+        textNumbers.text = calculator.getNumbersToString()
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+        generateNumbers()
+
+        calculateResult()
+    }
+
+    private fun generateNumbers() {
+        findViewById<Button>(R.id.buttonGenerate).setOnClickListener {
+            calculator.updateNumbers()
+            updateTextView()
+        }
+
+        findViewById<TextView>(R.id.textResult).text = calculator.getResult()
+    }
+
+    private fun calculateResult() {
         findViewById<Button>(R.id.buttonCalculated).setOnClickListener {
-
             val secondActivity = Intent(this, CalculationsActivity::class.java)
             startActivity(secondActivity)
         }
