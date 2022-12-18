@@ -12,8 +12,10 @@ class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -32,6 +34,11 @@ class ListFragment : Fragment() {
             fragmentManager.beginTransaction().replace(R.id.fragment_container_view, AddFragment())
                 .addToBackStack(null).commit()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onDestroy() {
