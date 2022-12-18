@@ -14,9 +14,6 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-        actionBar?.title = getString(R.string.app_name)
     }
 
     override fun onCreateView(
@@ -37,10 +34,6 @@ class ListFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
