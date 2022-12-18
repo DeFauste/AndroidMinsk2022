@@ -2,6 +2,7 @@ package com.example.contact.fragment.list
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.contact.R
 import com.example.contact.databinding.FragmentListBinding
@@ -14,6 +15,8 @@ class ListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
+        actionBar?.title = getString(R.string.app_name)
     }
 
     override fun onCreateView(

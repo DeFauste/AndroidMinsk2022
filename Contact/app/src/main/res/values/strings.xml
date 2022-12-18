@@ -10,4 +10,6 @@
     <string name="rb_phone">Phone</string>
     <string name="rb_email">Email</string>
     <string name="save_menu">Save</string>
+    <string name="title_add_frag">Add contact</string>
+    <string name="title_edit_frag">Name</string>
 </resources>
