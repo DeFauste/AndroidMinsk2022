@@ -14,4 +14,7 @@
     <string name="save_menu">Save</string>
     <string name="title_add_frag">Add contact</string>
     <string name="title_edit_frag">Name</string>
+    <string name="toast_inc_email">Incorrect E-mail</string>
+    <string name="toast_inc_phone">Incorrect phone</string>
+    <string name="enter_name">Enter name.</string>
 </resources>
