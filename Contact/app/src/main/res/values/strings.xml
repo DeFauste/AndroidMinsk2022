@@ -6,7 +6,9 @@
     <string name="search_menu">Search</string>
     <string name="edit_name_desc">Name</string>
     <string name="phone_number">Phone number</string>
+    <string name="email_number">E-mail</string>
     <string name="edit_mask_phone">+37529-xx-xx-xx</string>
+    <string name="edit_mask_email">example@exmpl.com</string>
     <string name="rb_phone">Phone</string>
     <string name="rb_email">Email</string>
     <string name="save_menu">Save</string>
