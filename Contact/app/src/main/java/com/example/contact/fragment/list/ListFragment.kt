@@ -10,6 +10,7 @@ import androidx.transition.Visibility
 import com.example.contact.*
 import com.example.contact.databinding.FragmentListBinding
 import com.example.contact.fragment.add.AddFragment
+import com.example.contact.fragment.edit.EditFragment
 
 class ListFragment : Fragment() {
 
@@ -36,6 +37,10 @@ class ListFragment : Fragment() {
             fragmentManager.beginTransaction().replace(R.id.fragment_container_view, AddFragment())
                 .addToBackStack(null).commit()
         }
+        binding.oneContact.itemContact.setOnClickListener {
+            fragmentManager.beginTransaction().replace(R.id.fragment_container_view, EditFragment())
+                .addToBackStack(null).commit()
+        }
         contactUpdate()
     }
 
@@ -44,11 +49,13 @@ class ListFragment : Fragment() {
             requireActivity().getSharedPreferences(SHARED_CONTACT, Context.MODE_PRIVATE)
         val name = sharedPreferences.getString(CONTACT_NAME, null)
         if (name != null) {
-//            binding.oneContact.root.visibility = View.VISIBLE
+            binding.oneContact.root.visibility = View.VISIBLE
             binding.oneContact.nameContact.text = name
             val phoneEmail = sharedPreferences.getString(CONTACT_PHONE_EMAIL, null)
             if (phoneEmail != null)
                 binding.oneContact.numberPhoneContact.text = phoneEmail
+        }else {
+            binding.oneContact.root.visibility = View.GONE
         }
     }
 
