@@ -17,4 +17,8 @@
     <string name="toast_inc_email">Incorrect E-mail</string>
     <string name="toast_inc_phone">Incorrect phone</string>
     <string name="enter_name">Enter name.</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="alertDialog">Do you really want to delete the contact? The contact will be removed and you will not be able te restore it</string>
+    <string name="no_contacts">No contacts</string>
 </resources>

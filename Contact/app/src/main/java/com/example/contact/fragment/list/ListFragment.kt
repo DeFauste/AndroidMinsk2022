@@ -50,12 +50,15 @@ class ListFragment : Fragment() {
         val name = sharedPreferences.getString(CONTACT_NAME, null)
         if (name != null) {
             binding.oneContact.root.visibility = View.VISIBLE
+            binding.textNotContact.visibility = View.GONE
+
             binding.oneContact.nameContact.text = name
             val phoneEmail = sharedPreferences.getString(CONTACT_PHONE_EMAIL, null)
             if (phoneEmail != null)
                 binding.oneContact.numberPhoneContact.text = phoneEmail
         }else {
             binding.oneContact.root.visibility = View.GONE
+            binding.textNotContact.visibility = View.VISIBLE
         }
     }
 

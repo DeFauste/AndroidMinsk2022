@@ -1,9 +1,11 @@
 package com.example.contact.fragment.edit
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.example.contact.*
@@ -38,7 +40,37 @@ class EditFragment : Fragment() {
                 .addToBackStack(null).commit()
         }
 
+        binding.btnDeleteContact.setOnClickListener {
+            alertDialog()
+        }
+
         saveContact()
+    }
+    private fun alertDialog() {
+        val sharedPreferences =
+            requireActivity().getSharedPreferences(SHARED_CONTACT, Context.MODE_PRIVATE)
+
+        val alertDialog: AlertDialog? = activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.setTitle(R.string.alertDialog)
+            builder.apply {
+                setPositiveButton(R.string.ok,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        sharedPreferences.edit().clear().apply()
+                        val fragmentManager = parentFragmentManager
+                        fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container_view,
+                                ListFragment())
+                            .addToBackStack(null).commit()
+                    })
+                setNegativeButton(R.string.cancel,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        // User cancelled the dialog
+                    })
+            }
+            builder.create()
+        }
+        alertDialog?.show()
     }
 
     private fun contactUpdate() {
