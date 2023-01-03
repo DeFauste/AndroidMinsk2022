@@ -34,11 +34,11 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val fragmentManager = parentFragmentManager
         binding.btnAddContact.setOnClickListener {
-            fragmentManager.beginTransaction().replace(R.id.fragment_container_view, AddFragment())
+            fragmentManager.beginTransaction().setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right).replace(R.id.fragment_container_view, AddFragment())
                 .addToBackStack(null).commit()
         }
         binding.oneContact.itemContact.setOnClickListener {
-            fragmentManager.beginTransaction().replace(R.id.fragment_container_view, EditFragment())
+            fragmentManager.beginTransaction().setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right).replace(R.id.fragment_container_view, EditFragment())
                 .addToBackStack(null).commit()
         }
         contactUpdate()
