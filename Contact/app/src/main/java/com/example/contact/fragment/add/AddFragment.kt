@@ -37,6 +37,14 @@ class AddFragment : Fragment() {
 
         saveContact()
 
+        val fragmentManager = parentFragmentManager
+
+        binding.backButton.setOnClickListener {
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view,
+                    ListFragment())
+                .addToBackStack(null).commit()
+        }
     }
 
     private fun saveContact() {
@@ -47,7 +55,8 @@ class AddFragment : Fragment() {
                 requireActivity().getSharedPreferences(SHARED_CONTACT, Context.MODE_PRIVATE)
 
             if (name.isEmpty()) {
-                Toast.makeText(requireContext(), getString(R.string.enter_name), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.enter_name), Toast.LENGTH_SHORT)
+                    .show()
             } else {
 
                 if (phoneEmail.isEmpty() || (phoneEmail.isNotEmpty() && (checkEmailPhone(phoneEmail)))) {
@@ -71,11 +80,13 @@ class AddFragment : Fragment() {
             R.id.rbEmail -> checkEditEmail(phoneEmail).apply {
                 Toast.makeText(requireContext(),
                     getString(R.string.toast_inc_email),
-                    Toast.LENGTH_SHORT).show() }
+                    Toast.LENGTH_SHORT).show()
+            }
             else -> checkEditNumber(phoneEmail).apply {
                 Toast.makeText(requireContext(),
                     getString(R.string.toast_inc_phone),
-                    Toast.LENGTH_SHORT).show() }
+                    Toast.LENGTH_SHORT).show()
+            }
         }
 
     private fun checkRadioBtn() {
