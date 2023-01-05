@@ -34,7 +34,7 @@ class EditFragment : Fragment() {
         val fragmentManager = parentFragmentManager
 
         binding.backButton.setOnClickListener {
-            fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_right, R.animator.slide_in_left)
+            fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
                 .replace(R.id.fragment_container_view,
                     ListFragment())
                 .addToBackStack(null).commit()
@@ -58,7 +58,7 @@ class EditFragment : Fragment() {
                     DialogInterface.OnClickListener { dialog, id ->
                         sharedPreferences.edit().clear().apply()
                         val fragmentManager = parentFragmentManager
-                        fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_right, R.animator.slide_in_left)
+                        fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
                             .replace(R.id.fragment_container_view,
                                 ListFragment())
                             .addToBackStack(null).commit()
@@ -112,7 +112,7 @@ class EditFragment : Fragment() {
                         apply()
                     }
                     val fragmentManager = parentFragmentManager
-                    fragmentManager.beginTransaction()
+                    fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
                         .replace(R.id.fragment_container_view,
                             ListFragment())
                         .addToBackStack(null).commit()

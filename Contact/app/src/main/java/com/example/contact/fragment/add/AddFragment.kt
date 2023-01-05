@@ -40,7 +40,7 @@ class AddFragment : Fragment() {
         val fragmentManager = parentFragmentManager
 
         binding.backButton.setOnClickListener {
-            fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_right, R.animator.slide_in_left)
+            fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
                 .replace(R.id.fragment_container_view,
                     ListFragment())
                 .addToBackStack(null).commit()
@@ -67,7 +67,7 @@ class AddFragment : Fragment() {
                         apply()
                     }
                     val fragmentManager = parentFragmentManager
-                    fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_right, R.animator.slide_in_left)
+                    fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
                         .replace(R.id.fragment_container_view, ListFragment())
                         .addToBackStack(null).commit()
                 }
