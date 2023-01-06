@@ -4,15 +4,20 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.Menu
-import android.view.View
+import androidx.activity.viewModels
+import com.example.contact.fragment.FragmentViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
+
+    private val fragmentViewModel: FragmentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        println("fragmentViewModel.getContacts().value")
+        fragmentViewModel.getContacts().observe(this) {
+            println(fragmentViewModel.getContacts().value)
+        }
     }
 
     override fun onStart() {

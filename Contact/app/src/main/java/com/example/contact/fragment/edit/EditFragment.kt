@@ -3,13 +3,19 @@ package com.example.contact.fragment.edit
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.InputType
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.contact.*
 import com.example.contact.databinding.FragmentEditBinding
+import com.example.contact.fragment.FragmentViewModel
+import com.example.contact.fragment.add.checkEditEmail
+import com.example.contact.fragment.add.checkEditNumber
+import com.example.contact.fragment.data.Contact
 import com.example.contact.fragment.list.ListFragment
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -18,6 +24,8 @@ import java.util.regex.Pattern
 class EditFragment : Fragment() {
     private var _binding: FragmentEditBinding? = null
     private val binding get() = _binding!!
+
+    private val fragmentViewModel: FragmentViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,38 +38,40 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         contactUpdate()
-        val fragmentManager = parentFragmentManager
 
-        binding.backButton.setOnClickListener {
-            fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
-                .replace(R.id.fragment_container_view,
-                    ListFragment())
-                .addToBackStack(null).commit()
-        }
-
+        //delete contact
         binding.btnDeleteContact.setOnClickListener {
             alertDialog()
         }
-
-        saveContact()
+        //return to the sheet contacts
+        binding.backButton.setOnClickListener {
+            fragmentTransaction(ListFragment(), R.id.fragment_container_view)
+        }
+        //save new contact
+        binding.saveButton.setOnClickListener {
+            saveContact()
+        }
     }
-    private fun alertDialog() {
-        val sharedPreferences =
-            requireActivity().getSharedPreferences(SHARED_CONTACT, Context.MODE_PRIVATE)
 
+    private fun fragmentTransaction(f: Fragment, idLayout: Int) {
+        val fragmentManager = parentFragmentManager
+        fragmentManager.beginTransaction()
+            .setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right)
+            .replace(idLayout, f)
+            .addToBackStack(null).commit()
+    }
+
+    private fun alertDialog() {
         val alertDialog: AlertDialog? = activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setTitle(R.string.alertDialog)
             builder.apply {
                 setPositiveButton(R.string.ok,
                     DialogInterface.OnClickListener { dialog, id ->
-                        sharedPreferences.edit().clear().apply()
-                        val fragmentManager = parentFragmentManager
-                        fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
-                            .replace(R.id.fragment_container_view,
-                                ListFragment())
-                            .addToBackStack(null).commit()
+                        fragmentViewModel.deleteContact(fragmentViewModel.clickItem)
+                        fragmentTransaction(ListFragment(), R.id.fragment_container_view)
                     })
                 setNegativeButton(R.string.cancel,
                     DialogInterface.OnClickListener { dialog, id ->
@@ -74,83 +84,60 @@ class EditFragment : Fragment() {
     }
 
     private fun contactUpdate() {
-        val sharedPreferences =
-            requireActivity().getSharedPreferences(SHARED_CONTACT, Context.MODE_PRIVATE)
-        val name = sharedPreferences.getString(CONTACT_NAME, null)
-        if (name != null) {
-//            binding.oneContact.root.visibility = View.VISIBLE
-            binding.editName.setText(name)
-            val phoneEmail = sharedPreferences.getString(CONTACT_PHONE_EMAIL, null)
-            if (phoneEmail != null)
-                binding.editPhoneEmail.setText(phoneEmail)
-            when (sharedPreferences.getInt(CONTACT_CHECKED_RB, 0)) {
-                R.id.rbEmail -> binding.textTitlePhoneEmail.text = getString(R.string.email_number)
-                else -> binding.textTitlePhoneEmail.text = getString(R.string.phone_number)
+        val contact: Contact = fragmentViewModel.clickItem
+
+        val name = contact.contactName
+        binding.editName.setText(name)
+
+        val phoneEmail = contact.contactPhoneEmail
+        if (phoneEmail.isNotEmpty())
+            binding.editPhoneEmail.setText(phoneEmail)
+
+        when (contact.typeContact) {
+            R.id.rbEmail -> binding.textTitlePhoneEmail.text =
+                getString(R.string.email_number).apply {
+                    binding.editPhoneEmail.setHint(getString(R.string.edit_mask_email))
+                    binding.editPhoneEmail.inputType = InputType.TYPE_CLASS_TEXT
+                }
+            else -> binding.textTitlePhoneEmail.text = getString(R.string.phone_number).apply {
+                binding.editPhoneEmail.setHint(getString(R.string.edit_mask_phone))
+                binding.editPhoneEmail.inputType = InputType.TYPE_CLASS_PHONE
             }
         }
     }
 
     private fun saveContact() {
-        binding.saveButton.setOnClickListener {
-            val name = binding.editName.text.toString()
-            val phoneEmail = binding.editPhoneEmail.text.toString()
-            val sharedPreferences =
-                requireActivity().getSharedPreferences(SHARED_CONTACT, Context.MODE_PRIVATE)
+        val name = binding.editName.text.toString()
+        val phoneEmail = binding.editPhoneEmail.text.toString()
+        val typeContact = fragmentViewModel.clickItem.typeContact
+        if (name.isEmpty()) {
+            Toast.makeText(requireContext(), getString(R.string.enter_name), Toast.LENGTH_SHORT)
+                .show()
+        } else {
 
-            if (name.isEmpty()) {
-                Toast.makeText(requireContext(), getString(R.string.enter_name), Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-
-                if (phoneEmail.isEmpty() || (phoneEmail.isNotEmpty() && (checkEmailPhone(phoneEmail,
-                        sharedPreferences.getInt(CONTACT_CHECKED_RB, 0))))
-                ) {
-                    sharedPreferences.edit {
-                        putString(CONTACT_NAME, name)
-                        putString(CONTACT_PHONE_EMAIL, phoneEmail)
-                        putInt(CONTACT_CHECKED_RB, sharedPreferences.getInt(CONTACT_CHECKED_RB, 0))
-                        apply()
-                    }
-                    val fragmentManager = parentFragmentManager
-                    fragmentManager.beginTransaction().setCustomAnimations( R.animator.slide_in_left, R.animator.slide_in_right)
-                        .replace(R.id.fragment_container_view,
-                            ListFragment())
-                        .addToBackStack(null).commit()
-                }
+            if (phoneEmail.isEmpty() || (phoneEmail.isNotEmpty() && (checkEmailPhone(phoneEmail,
+                    typeContact)))
+            ) {
+                fragmentViewModel.addContact(Contact(name, phoneEmail, typeContact))
+                fragmentViewModel.deleteContact(fragmentViewModel.clickItem)
+                fragmentTransaction(ListFragment(), R.id.fragment_container_view)
             }
         }
     }
 
     private fun checkEmailPhone(phoneEmail: String, idRb: Int): Boolean =
         when (idRb) {
-            R.id.rbEmail -> checkEditEmail(phoneEmail).apply {
-                Toast.makeText(requireContext(),
+            R.id.rbEmail -> phoneEmail.checkEditEmail().apply {
+                if (!this) Toast.makeText(requireContext(),
                     getString(R.string.toast_inc_email),
                     Toast.LENGTH_SHORT).show()
             }
-            else -> checkEditNumber(phoneEmail).apply {
-                Toast.makeText(requireContext(),
+            else -> phoneEmail.checkEditNumber().apply {
+                if (!this) Toast.makeText(requireContext(),
                     getString(R.string.toast_inc_phone),
                     Toast.LENGTH_SHORT).show()
             }
         }
-
-    private fun checkEditNumber(phone: String): Boolean {
-        var check = false
-        if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            check = !(phone.length < 6 || phone.length > 13)
-        } else {
-            check = false
-        }
-        return check
-    }
-
-    private fun checkEditEmail(email: String): Boolean {
-        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
-        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher: Matcher = pattern.matcher(email)
-        return matcher.matches()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
