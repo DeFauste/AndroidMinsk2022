@@ -1,16 +1,12 @@
 package com.example.contact.fragment.list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.transition.Visibility
 import com.example.contact.*
 import com.example.contact.databinding.FragmentListBinding
 import com.example.contact.fragment.FragmentViewModel
@@ -26,11 +22,9 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
 
     private val fragmentViewModel: FragmentViewModel by activityViewModels()
 
-    private val adapter: RecyclerViewAdapter = RecyclerViewAdapter(this)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var navigationView: View
 
-    }
+    private val adapter: RecyclerViewAdapter = RecyclerViewAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +36,8 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigationView = view
+
         if(fragmentViewModel.getValueContacts() == 0){
             binding.rcViewContacts.visibility = View.GONE
             binding.textNotContact.visibility = View.VISIBLE
@@ -52,16 +48,12 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
         }
 
         binding.btnAddContact.setOnClickListener {
-            fragmentTransaction(AddFragment(), R.id.fragment_container_view)
+            fragmentTransaction(R.id.action_listFragment_to_addFragment)
         }
     }
 
-    private fun fragmentTransaction(f: Fragment, idLayout: Int) {
-        val fragmentManager = parentFragmentManager
-        fragmentManager.beginTransaction()
-            .setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right)
-            .replace(idLayout, f)
-            .addToBackStack(null).commit()
+    private fun fragmentTransaction(idNavigation: Int) {
+        Navigation.findNavController(navigationView).navigate(idNavigation)
     }
 
     private fun initRecycler() {
@@ -82,6 +74,6 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
 
     override fun onClick(contact: Contact) {
         fragmentViewModel.clickItem = contact
-        fragmentTransaction(EditFragment(), R.id.fragment_container_view)
+        fragmentTransaction(R.id.action_listFragment_to_editFragment)
     }
 }

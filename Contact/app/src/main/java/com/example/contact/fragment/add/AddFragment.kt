@@ -1,20 +1,16 @@
 package com.example.contact.fragment.add
 
-import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.example.contact.*
 import com.example.contact.databinding.FragmentAddBinding
 import com.example.contact.fragment.FragmentViewModel
 import com.example.contact.fragment.data.Contact
-import com.example.contact.fragment.list.ListFragment
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 class AddFragment : Fragment() {
@@ -24,9 +20,7 @@ class AddFragment : Fragment() {
 
     private val fragmentViewModel: FragmentViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var navigationView: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +32,7 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navigationView = view
 
         checkRadioBtn()
 
@@ -50,45 +45,45 @@ class AddFragment : Fragment() {
     }
 
     private fun fragmentTransaction() {
-        val fragmentManager = parentFragmentManager
-        fragmentManager.beginTransaction()
-            .setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right)
-            .replace(R.id.fragment_container_view,
-                ListFragment())
-            .addToBackStack(null).commit()
+        Navigation.findNavController(navigationView).navigate(R.id.action_addFragment_to_listFragment)
     }
 
     private fun saveContact() {
-            val name = binding.editName.text.toString()
-            val phoneEmail = binding.editPhoneEmail.text.toString()
-            val rbId = binding.rgAddFragment.checkedRadioButtonId
+        val name = binding.editName.text.toString()
+        val phoneEmail = binding.editPhoneEmail.text.toString()
+        val rbId = binding.rgAddFragment.checkedRadioButtonId
         if (name.isEmpty()) {
-                Toast.makeText(requireContext(), getString(R.string.enter_name), Toast.LENGTH_SHORT)
-                    .show()
-            } else {
+            Toast.makeText(requireContext(), getString(R.string.enter_name), Toast.LENGTH_SHORT)
+                .show()
+        } else {
 
-                if (phoneEmail.isEmpty() || (phoneEmail.isNotEmpty() && (checkEmailPhone(phoneEmail)))) {
-                    fragmentViewModel.addContact(
-                        Contact(
-                            contactName = name,
-                            contactPhoneEmail = phoneEmail,
-                            rbId
-                        )
+            if (phoneEmail.isEmpty() || (phoneEmail.isNotEmpty() && (checkEmailPhone(phoneEmail)))) {
+                fragmentViewModel.addContact(
+                    Contact(
+                        contactName = name,
+                        contactPhoneEmail = phoneEmail,
+                        rbId
                     )
-                    fragmentTransaction()
-                }
+                )
+                fragmentTransaction()
             }
+        }
     }
 
     private fun checkEmailPhone(phoneEmail: String): Boolean =
         when (binding.rgAddFragment.checkedRadioButtonId) {
             R.id.rbEmail -> phoneEmail.checkEditEmail().apply {
-                if(!this) Toast.makeText(requireContext(), R.string.toast_inc_email, Toast.LENGTH_SHORT).show()
+                if (!this) Toast.makeText(requireContext(),
+                    R.string.toast_inc_email,
+                    Toast.LENGTH_SHORT).show()
             }
             else -> phoneEmail.checkEditNumber().apply {
-                if(!this) Toast.makeText(requireContext(), R.string.toast_inc_phone, Toast.LENGTH_SHORT).show()
+                if (!this) Toast.makeText(requireContext(),
+                    R.string.toast_inc_phone,
+                    Toast.LENGTH_SHORT).show()
             }
         }
+
     //update title editText
     private fun checkRadioBtn() {
         binding.rgAddFragment.setOnCheckedChangeListener { radioGroup, i ->

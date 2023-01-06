@@ -3,8 +3,6 @@ package com.example.contact.fragment.data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView.RecyclerListener
-import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.R
 import com.example.contact.databinding.ItemContactBinding
