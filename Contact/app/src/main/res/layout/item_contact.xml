@@ -15,9 +15,9 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/backgr_image_cont"
+        android:background="@drawable/backgr_image_cont_phone"
         android:foregroundGravity="center"
-        android:src="@drawable/ic_contact"
+        android:src="@drawable/ic_contact_phone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@id/nameContact" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnPhone"
+        android:id="@+id/btnPhoneEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_phone"

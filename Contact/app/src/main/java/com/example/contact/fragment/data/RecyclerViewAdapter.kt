@@ -3,6 +3,7 @@ package com.example.contact.fragment.data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.contact.R
 import com.example.contact.databinding.ItemContactBinding
@@ -18,6 +19,11 @@ class RecyclerViewAdapter(private val listener: Listener) : RecyclerView.Adapter
             numberPhoneContact.text = contact.contactPhoneEmail
             itemContact.setOnClickListener{
                 listener.onClick(contact)
+            }
+            if(contact.typeContact == R.id.rbEmail){
+                imageContact.setBackgroundResource(R.drawable.backgr_image_cont_email)
+                imageContact.setImageResource(R.drawable.ic_contact_email)
+                btnPhoneEmail.setImageResource(R.drawable.ic_email)
             }
         }
     }
