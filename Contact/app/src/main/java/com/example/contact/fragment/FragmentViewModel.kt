@@ -28,4 +28,8 @@ class FragmentViewModel : ViewModel() {
         contactList.value?.add(contact)
         contactList.value = contactList.value
     }
+    fun addAllContacts(arrayListContact: ArrayList<Contact>){
+        contactList.value?.addAll(arrayListContact)
+        contactList.value = contactList.value
+    }
 }

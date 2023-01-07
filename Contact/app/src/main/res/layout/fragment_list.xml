@@ -36,7 +36,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_search" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_search"
+        tools:listitem="@layout/item_contact"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddContact"

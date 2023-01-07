@@ -10,10 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contact.*
 import com.example.contact.databinding.FragmentListBinding
 import com.example.contact.fragment.FragmentViewModel
-import com.example.contact.fragment.add.AddFragment
 import com.example.contact.fragment.data.Contact
 import com.example.contact.fragment.data.RecyclerViewAdapter
-import com.example.contact.fragment.edit.EditFragment
 
 class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
 
@@ -37,7 +35,6 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigationView = view
-
         if(fragmentViewModel.getValueContacts() == 0){
             binding.rcViewContacts.visibility = View.GONE
             binding.textNotContact.visibility = View.VISIBLE
@@ -51,7 +48,6 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
             fragmentTransaction(R.id.action_listFragment_to_addFragment)
         }
     }
-
     private fun fragmentTransaction(idNavigation: Int) {
         Navigation.findNavController(navigationView).navigate(idNavigation)
     }
@@ -60,7 +56,6 @@ class ListFragment : Fragment(), RecyclerViewAdapter.Listener {
         binding.apply {
             rcViewContacts.layoutManager = LinearLayoutManager(requireContext())
             rcViewContacts.adapter = adapter
-
             fragmentViewModel.getContacts().observe(activity as LifecycleOwner) {
                 adapter.addContact(it)
             }
