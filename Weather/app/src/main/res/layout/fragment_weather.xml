@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.WeatherFragment">
+
+    <TextView
+        android:id="@+id/txtCurCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:letterSpacing="0.02"
+        android:lineSpacingExtra="4sp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Minsk, BY" />
+
+    <ImageButton
+        android:id="@+id/btnAddCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16.83dp"
+        android:layout_marginEnd="14dp"
+        android:background="@color/background_add_city"
+        android:src="@drawable/ic_add_city"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctlCurrentWeather"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/rcvWeatherWeek"
+        app:layout_constraintTop_toBottomOf="@id/txtCurCity">
+
+        <TextView
+            android:id="@+id/txtCurDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:letterSpacing="0.04"
+            android:lineSpacingExtra="18sp"
+            android:textColor="#6F6F6F"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="01 Aug 2021" />
+
+        <ImageView
+            android:id="@+id/imgIcWeather"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/example_weather"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:fontFeatureSettings="pnm, enum"
+            android:gravity="center_horizontal|center_vertical"
+            android:letterSpacing="0.01"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="-27sp"
+            android:textColor="@color/black"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgIcWeather"
+            android:layout_marginTop="90dp"
+            tools:text="30" />
+
+        <TextView
+            android:id="@+id/txtWeatherSum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTemperature"
+            android:letterSpacing="0.04"
+            android:textSize="12sp"
+            android:fontFeatureSettings="pnm, enum"
+            android:textColor="@color/sum_weather"
+            android:lineSpacingExtra="18sp"
+            tools:text="Sunny"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvWeatherWeek"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="129dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_weather"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

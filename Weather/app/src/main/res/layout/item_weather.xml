@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="65dp"
+    android:layout_height="96.91dp"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/txtCurDate"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:fontFeatureSettings="pnm, enum"
+        android:gravity="center_horizontal|center_vertical"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="18sp"
+        android:textColor="@color/sum_weather"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="02.08.2021" />
+
+    <ImageView
+        android:id="@+id/imgIcWeather"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/example_weather" />
+
+    <TextView
+        android:id="@+id/txtTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:fontFeatureSettings="pnm, enum"
+        android:gravity="center_horizontal|center_vertical"
+        android:letterSpacing="0.02"
+        android:lineSpacingExtra="4sp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgIcWeather"
+        tools:text="25" />
+
+    <TextView
+        android:id="@+id/txtWeatherSum"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:fontFeatureSettings="pnm, enum"
+        android:gravity="center_horizontal|center_vertical"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="18sp"
+        android:textColor="@color/sum_weather"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtTemperature"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Sunny" />
+</androidx.constraintlayout.widget.ConstraintLayout>
