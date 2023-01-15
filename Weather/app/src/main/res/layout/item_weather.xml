@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/txtCurDate"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_width="64dp"
+        android:layout_height="21dp"
         android:fontFeatureSettings="pnm, enum"
         android:gravity="center_horizontal|center_vertical"
         android:letterSpacing="0.04"
         android:lineSpacingExtra="18sp"
         android:textColor="@color/sum_weather"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,20 +49,21 @@
 
     <TextView
         android:id="@+id/txtWeatherSum"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:fontFeatureSettings="pnm, enum"
         android:gravity="center_horizontal|center_vertical"
+        android:maxLines="2"
         android:letterSpacing="0.04"
         android:lineSpacingExtra="18sp"
+        android:ellipsize="end"
         android:textColor="@color/sum_weather"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtTemperature"
+        app:layout_constraintTop_toBottomOf="@+id/txtTemperature"
         app:layout_constraintVertical_bias="0.0"
         tools:text="Sunny" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,18 @@
 package com.example.weather.fragment
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.weather.R
 import com.example.weather.databinding.ItemWeatherBinding
 import com.example.weather.remote.data.Weather
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
@@ -31,7 +37,7 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() 
             differ.submitList(value)
         }
 
-    override fun getItemCount(): Int  = weathers.size
+    override fun getItemCount(): Int = weathers.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         return WeatherViewHolder(ItemWeatherBinding.inflate(
@@ -41,12 +47,20 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() 
         ))
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         holder.binding.apply {
             val weather = weathers[position]
-            txtCurDate.text = "22.22.2023"
-            txtTemperature.text = "30"
-            txtWeatherSum.text = "Sunny"
+            txtCurDate.text = weather.dt_txt.replace(" ", "")
+            txtTemperature.text = weather.main.temp.toInt().toString()
+            txtWeatherSum.text = weather.weather[0].main
+            val idImg = weather.weather[0].icon
+            Glide
+                .with(txtWeatherSum)
+                .load("https://openweathermap.org/img/wn/$idImg@2x.png")
+                .centerCrop()
+                .placeholder(R.drawable.progress_bar)
+                .into(imgIcWeather)
         }
     }
 }

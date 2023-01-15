@@ -100,15 +100,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvWeatherWeek"
-        android:layout_width="318dp"
-        android:layout_height="wrap_content"
+        android:layout_width="335dp"
+        android:layout_height="113dp"
         android:layout_marginBottom="129dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_weather"/>
+        tools:itemCount="4"
+        tools:listitem="@layout/item_weather" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

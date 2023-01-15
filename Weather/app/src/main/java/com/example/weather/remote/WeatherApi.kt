@@ -12,5 +12,6 @@ interface WeatherApi {
         @Query("q") city: String,
         @Query("lang") lang: String,
         @Query("units") units: String,
+        @Query("cnt") cnt:String = "40"
     ): Response<WeatherResponse>
 }
