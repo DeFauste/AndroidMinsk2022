@@ -2,13 +2,10 @@ package com.example.weather
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.weather.fragment.FragmentViewModel
-import com.example.weather.remote.RetrofitInstance
-import retrofit2.HttpException
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,8 +15,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        fragmentViewModel.initDatabase(this)
+//        setupActionBarWithNavController(findNavController(R.id.fragmentContainerView))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fragmentViewModel.initDatabase(this)
+        setupActionBarWithNavController(findNavController(R.id.fragmentContainerView))
 
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.fragmentContainerView)
+        return navController.navigateUp() ||super.onSupportNavigateUp()
+    }
+
 
 }
 
