@@ -15,5 +15,4 @@ interface CityDao {
     @Query("SELECT * FROM city_table ORDER BY id ASC")
     fun readAllCity(): LiveData<List<City>>
 
-
 }

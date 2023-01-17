@@ -34,6 +34,9 @@ class FragmentViewModel : ViewModel() {
             repository.addCity(city)
         }
     }
+    fun readAllData(): LiveData<List<City>> {
+        return readAllData
+    }
 
     private val weatherListFlow = flow<WeatherResponse> {
         val response = try {
