@@ -1,10 +1,7 @@
 package com.example.weather.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CityDao {
@@ -14,5 +11,8 @@ interface CityDao {
 
     @Query("SELECT * FROM city_table ORDER BY id ASC")
     fun readAllCity(): LiveData<List<City>>
+
+    @Query("UPDATE city_table SET checkCity=0  WHERE cityName!=:cityName")
+    suspend fun updateChecked(cityName:String)
 
 }

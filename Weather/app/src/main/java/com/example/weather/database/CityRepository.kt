@@ -8,5 +8,8 @@ class CityRepository(private val cityDao: CityDao) {
     suspend fun addCity(city: City) {
         cityDao.addCity(city)
     }
+    suspend fun updateCheck(cityName:String) {
+        cityDao.updateChecked(cityName)
+    }
 
 }

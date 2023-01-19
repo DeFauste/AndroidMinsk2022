@@ -1,4 +1,4 @@
-package com.example.weather.fragment
+package com.example.weather.fragment.weather
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -11,8 +11,6 @@ import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.ItemWeatherBinding
 import com.example.weather.remote.data.Weather
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 
 class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {

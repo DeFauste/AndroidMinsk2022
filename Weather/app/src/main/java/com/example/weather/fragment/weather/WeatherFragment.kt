@@ -1,4 +1,4 @@
-package com.example.weather.fragment
+package com.example.weather.fragment.weather
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.FragmentWeatherBinding
+import com.example.weather.fragment.FragmentViewModel
 
 
 class WeatherFragment : Fragment() {

@@ -1,5 +1,6 @@
 package com.example.weather.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,5 +9,5 @@ data class City(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val cityName: String,
-    val check: Boolean
+    val checkCity: String
 )

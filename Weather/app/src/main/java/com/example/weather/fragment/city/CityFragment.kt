@@ -1,4 +1,4 @@
-package com.example.weather.fragment
+package com.example.weather.fragment.city
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.example.weather.databinding.FragmentCityBinding
-import com.example.weather.databinding.FragmentWeatherBinding
-import kotlin.properties.Delegates
+import com.example.weather.fragment.FragmentViewModel
 
 
 class CityFragment : Fragment() {
@@ -43,6 +42,7 @@ class CityFragment : Fragment() {
                 childFragmentManager, CustomInputDialogFragment.TAG)
         }
         initRecyclerView()
+
     }
 
     private fun initRecyclerView() {

@@ -1,16 +1,14 @@
-package com.example.weather.fragment
+package com.example.weather.fragment.city
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.weather.R
 import com.example.weather.database.City
 import com.example.weather.databinding.PartCityInputBinding
+import com.example.weather.fragment.FragmentViewModel
 
 
 class CustomInputDialogFragment : DialogFragment() {
@@ -34,7 +32,7 @@ class CustomInputDialogFragment : DialogFragment() {
 
 
     private fun addCity(cityName: String) {
-        val city = City(0, cityName, true)
+        val city = City(0, cityName, "true")
         fragmentViewModel.addCity(city)
     }
 

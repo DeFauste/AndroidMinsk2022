@@ -14,6 +14,7 @@ import com.example.weather.remote.data.Weather
 import com.example.weather.remote.data.WeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -32,6 +33,7 @@ class FragmentViewModel : ViewModel() {
     fun addCity(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addCity(city)
+            repository.updateCheck(city.cityName)
         }
     }
     fun readAllData(): LiveData<List<City>> {
