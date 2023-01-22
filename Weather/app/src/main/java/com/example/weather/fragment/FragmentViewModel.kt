@@ -22,13 +22,18 @@ import java.io.IOException
 class FragmentViewModel : ViewModel() {
     private lateinit var readAllData: LiveData<List<City>>
     private lateinit var repository: CityRepository
+    private lateinit var readCity: LiveData<List<City>>
 
     fun initDatabase(context: Context) {
         val cityDao = CityDatabase.getDatabase(context).cityDao()
         repository = CityRepository((cityDao))
         readAllData = repository.readAllData
+        readCity = repository.readCity
     }
 
+    fun readCity() :LiveData<List<City>>{
+        return readCity
+    }
 
     fun addCity(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -36,13 +41,14 @@ class FragmentViewModel : ViewModel() {
             repository.updateCheck(city.cityName)
         }
     }
+
     fun readAllData(): LiveData<List<City>> {
         return readAllData
     }
 
     private val weatherListFlow = flow<WeatherResponse> {
         val response = try {
-            RetrofitInstance.api.getWeather("Stambul", "eng", "metric")
+            RetrofitInstance.api.getWeather("London", "eng", "metric")
         } catch (e: IOException) {
             println("onCreate: not internet")
             return@flow

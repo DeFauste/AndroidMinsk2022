@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +37,7 @@ class WeatherFragment : Fragment() {
     ): View? {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
+        fragmentViewModel.initDatabase(requireContext())
         return binding.root
     }
 
@@ -71,6 +73,7 @@ class WeatherFragment : Fragment() {
             }
         }
     }
+
     private fun initRecyclerView() {
         binding.rcvWeatherWeek.adapter = adapter
         lifecycleScope.launchWhenCreated {

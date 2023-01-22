@@ -32,7 +32,7 @@ class CustomInputDialogFragment : DialogFragment() {
 
 
     private fun addCity(cityName: String) {
-        val city = City(0, cityName, "true")
+        val city = City(0, cityName, 1)
         fragmentViewModel.addCity(city)
     }
 
