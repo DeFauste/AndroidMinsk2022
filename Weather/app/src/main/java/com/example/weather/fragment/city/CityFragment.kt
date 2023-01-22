@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.example.weather.databinding.FragmentCityBinding
 import com.example.weather.fragment.FragmentViewModel
+import kotlinx.coroutines.flow.first
 
 
 class CityFragment : Fragment() {
@@ -47,9 +48,7 @@ class CityFragment : Fragment() {
 
     private fun initRecyclerView() {
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readAllData().observe(activity as LifecycleOwner) {
-                println(it)
-            }
+            fragmentViewModel.readAllData().first()
         }
     }
 

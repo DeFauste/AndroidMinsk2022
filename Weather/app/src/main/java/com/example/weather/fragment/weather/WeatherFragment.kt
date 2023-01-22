@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.fragment.FragmentViewModel
+import kotlinx.coroutines.flow.collect
 
 
 class WeatherFragment : Fragment() {
@@ -56,7 +57,7 @@ class WeatherFragment : Fragment() {
     private fun update() = fragmentViewModel.updateWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.getWeather().observe(activity as LifecycleOwner) {
+            fragmentViewModel.getWeather().collect() {
                 val weather = it[0]
                 with(binding) {
                     txtCurDate.text = weather.dt_txt.split(" ")[0]
@@ -77,7 +78,7 @@ class WeatherFragment : Fragment() {
     private fun initRecyclerView() {
         binding.rcvWeatherWeek.adapter = adapter
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.getWeather().observe(activity as LifecycleOwner) {
+            fragmentViewModel.getWeather().collect(){
                 adapter.weathers = it.subList(1, 5)
             }
         }

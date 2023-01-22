@@ -1,10 +1,11 @@
 package com.example.weather.database
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 class CityRepository(private val cityDao: CityDao) {
-    val readAllData:LiveData<List<City>> = cityDao.readAllCity()
-    val readCity: LiveData<List<City>> = cityDao.getCurrentCity()
+    val readAllData: Flow<List<City>> = cityDao.readAllCity()
+    val readCity: Flow<List<City>> = cityDao.getCurrentCity()
     suspend fun addCity(city: City) {
         cityDao.addCity(city)
     }

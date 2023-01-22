@@ -13,6 +13,9 @@ import com.example.weather.remote.RetrofitInstance
 import com.example.weather.remote.data.Weather
 import com.example.weather.remote.data.WeatherResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -20,9 +23,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class FragmentViewModel : ViewModel() {
-    private lateinit var readAllData: LiveData<List<City>>
+    private lateinit var readAllData: Flow<List<City>>
     private lateinit var repository: CityRepository
-    private lateinit var readCity: LiveData<List<City>>
+    private lateinit var readCity: Flow<List<City>>
 
     fun initDatabase(context: Context) {
         val cityDao = CityDatabase.getDatabase(context).cityDao()
@@ -31,7 +34,7 @@ class FragmentViewModel : ViewModel() {
         readCity = repository.readCity
     }
 
-    fun readCity() :LiveData<List<City>>{
+    fun readCity(): Flow<List<City>> {
         return readCity
     }
 
@@ -42,11 +45,11 @@ class FragmentViewModel : ViewModel() {
         }
     }
 
-    fun readAllData(): LiveData<List<City>> {
+    fun readAllData(): Flow<List<City>> {
         return readAllData
     }
 
-    private val weatherListFlow = flow<WeatherResponse> {
+    private val weatherListFlow = flow<List<Weather>> {
         val response = try {
             RetrofitInstance.api.getWeather("London", "eng", "metric")
         } catch (e: IOException) {
@@ -56,16 +59,12 @@ class FragmentViewModel : ViewModel() {
             println("HttpException")
             return@flow
         }
-        this.emit(response.body()!!)
+        this.emit(DataDistribution().getWeekWeather(response.body()!!.list))
     }
     private var weatherList = MutableLiveData<List<Weather>>()
-    fun getWeather() = weatherList
+    fun getWeather() = weatherListFlow
 
-    fun updateWeather() {
-        viewModelScope.launch {
-            weatherListFlow.collect() {
-                weatherList.value = DataDistribution().getWeekWeather(it.list)
-            }
-        }
+    fun updateWeather(): Flow<List<Weather>> {
+        return weatherListFlow
     }
 }
