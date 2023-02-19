@@ -21,6 +21,8 @@ class CityFragment : Fragment() {
 
     private val fragmentViewModel: FragmentViewModel by activityViewModels()
 
+    private val adapter: CityAdapter = CityAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,13 +45,17 @@ class CityFragment : Fragment() {
                 childFragmentManager, CustomInputDialogFragment.TAG)
         }
         initRecyclerView()
-
     }
 
     private fun initRecyclerView() {
+        binding.rcvCityList.adapter = adapter
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readAllData().first()
+            adapter.cites = fragmentViewModel.readAllData().first()
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

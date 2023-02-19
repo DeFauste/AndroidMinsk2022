@@ -16,6 +16,7 @@ import com.example.weather.R
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.fragment.FragmentViewModel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class WeatherFragment : Fragment() {
@@ -37,14 +38,15 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
+        //hide action bar
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         fragmentViewModel.initDatabase(requireContext())
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //hide action bar
 
         binding.btnAddCity.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
@@ -54,7 +56,7 @@ class WeatherFragment : Fragment() {
         initRecyclerView()
     }
 
-    private fun update() = fragmentViewModel.updateWeather()
+    private fun update() = fragmentViewModel.getWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {
             fragmentViewModel.getWeather().collect() {
