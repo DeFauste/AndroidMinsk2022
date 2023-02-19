@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.databinding.FragmentCityBinding
 import com.example.weather.fragment.FragmentViewModel
-import kotlinx.coroutines.flow.first
+
 
 
 class CityFragment : Fragment() {
@@ -48,8 +49,13 @@ class CityFragment : Fragment() {
 
     private fun initRecyclerView() {
         binding.rcvCityList.adapter = adapter
+        binding.rcvCityList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
         lifecycleScope.launchWhenCreated {
-            adapter.cites = fragmentViewModel.readAllData().first()
+            fragmentViewModel.readAllData().collect() {
+                adapter.cites = it
+                println(it)
+            }
         }
     }
 

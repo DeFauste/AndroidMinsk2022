@@ -12,7 +12,4 @@ class CityRepository(private val cityDao: CityDao) {
     suspend fun updateCheck(cityName:String) {
         cityDao.updateChecked(cityName)
     }
-
-
-
 }
