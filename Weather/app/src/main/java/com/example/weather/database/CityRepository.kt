@@ -1,6 +1,5 @@
 package com.example.weather.database
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 
 class CityRepository(private val cityDao: CityDao) {
@@ -10,6 +9,10 @@ class CityRepository(private val cityDao: CityDao) {
         cityDao.addCity(city)
     }
     suspend fun updateCheck(cityName:String) {
+        cityDao.updateChecked(cityName)
+    }
+    suspend fun checkCity(cityName: String) {
+        cityDao.checkCity(cityName)
         cityDao.updateChecked(cityName)
     }
 }

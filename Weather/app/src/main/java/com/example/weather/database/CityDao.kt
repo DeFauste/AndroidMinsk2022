@@ -16,6 +16,9 @@ interface CityDao {
     @Query("UPDATE city_table SET checkCity=0  WHERE cityName!=:cityName")
     suspend fun updateChecked(cityName:String)
 
+    @Query("UPDATE city_table SET checkCity=1 WHERE cityName=:cityName")
+    suspend fun checkCity(cityName: String)
+
     @Query("SELECT * FROM city_table WHERE checkCity IS :checkN")
     fun getCurrentCity(checkN:Int = 1):Flow<List<City>>
 

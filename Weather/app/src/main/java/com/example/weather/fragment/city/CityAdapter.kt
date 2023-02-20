@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.database.City
 import com.example.weather.databinding.ItemCityBinding
 
-class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
+class CityAdapter(private val onClickListenerCity: onClickListenerCity) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
 
     inner class CityViewHolder(val binding: ItemCityBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -45,6 +45,10 @@ class CityAdapter : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
             val city = cites[position]
             txtCityName.text = city.cityName
             chbCurCity.isChecked = city.checkCity == 1
+
+            txtCityName.setOnClickListener {
+                onClickListenerCity.onClick(city.cityName)
+            }
         }
     }
 }

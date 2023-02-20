@@ -11,6 +11,7 @@ import com.example.weather.remote.DataDistribution
 import com.example.weather.remote.RetrofitInstance
 import com.example.weather.remote.data.Weather
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -30,6 +31,13 @@ class FragmentViewModel : ViewModel() {
         readCity = repository.readCity
     }
 
+    fun checkCity(cityName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateCheck(cityName)
+            repository.checkCity(cityName)
+        }
+    }
+
     fun addCity(city: City) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addCity(city)
@@ -42,20 +50,23 @@ class FragmentViewModel : ViewModel() {
     }
 
     private var weatherListS: Flow<List<Weather>> = flow {
-        viewModelScope.launch {
-            readCity.collect() { city ->
-                val nameCity = city[0].cityName
-                try {
-                    val response =
-                        RetrofitInstance.api.getWeather(nameCity, "eng", "metric").body()?.list
-                    weatherListS = flow<List<Weather>> {
-                        emit(DataDistribution().getWeekWeather(response?: arrayListOf()))
-                    }
-                } catch (e: IOException) {
-                    println("onCreate: not internet")
-                } catch (e: HttpException) {
-                    println("HttpException")
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+
+             readCity.collect() { city ->
+                 if(city.isNotEmpty()) {
+                     try {
+                         val response =
+                             RetrofitInstance.api.getWeather(city.first().cityName, "eng", "metric")
+                                 .body()?.list
+                         weatherListS = flow<List<Weather>> {
+                             emit(DataDistribution().getWeekWeather(response ?: arrayListOf()))
+                         }
+                     } catch (e: IOException) {
+                         println("onCreate: not internet")
+                     } catch (e: HttpException) {
+                         println("HttpException")
+                     }
+                 }
             }
         }
     }

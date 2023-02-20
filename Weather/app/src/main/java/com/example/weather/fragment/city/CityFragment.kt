@@ -21,7 +21,11 @@ class CityFragment : Fragment() {
 
     private val fragmentViewModel: FragmentViewModel by activityViewModels()
 
-    private val adapter: CityAdapter = CityAdapter()
+    private val adapter: CityAdapter = CityAdapter(object : onClickListenerCity {
+        override fun onClick(cityName: String) {
+            fragmentViewModel.checkCity(cityName)
+        }
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
