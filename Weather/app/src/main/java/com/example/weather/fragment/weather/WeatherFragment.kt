@@ -59,7 +59,7 @@ class WeatherFragment : Fragment() {
     private fun update() = fragmentViewModel.getWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.getWeather().collect() {
+            fragmentViewModel.readCityWeather().collect() {
                 val weather = it[0]
                 with(binding) {
                     txtCurDate.text = weather.dt_txt.split(" ")[0]
@@ -76,6 +76,25 @@ class WeatherFragment : Fragment() {
             }
         }
     }
+//    private fun updateCurrentWeather() {
+//        lifecycleScope.launchWhenCreated {
+//            fragmentViewModel.getWeather().collect() {
+//                val weather = it[0]
+//                with(binding) {
+//                    txtCurDate.text = weather.dt_txt.split(" ")[0]
+//                    txtTemperature.text = weather.main.temp.toInt().toString()
+//                    txtWeatherSum.text = weather.weather[0].main
+//                    val idImg = weather.weather[0].icon
+//                    Glide
+//                        .with(txtWeatherSum)
+//                        .load("https://openweathermap.org/img/wn/$idImg@2x.png")
+//                        .centerCrop()
+//                        .placeholder(R.drawable.progress_bar)
+//                        .into(imgIcWeather)
+//                }
+//            }
+//        }
+//    }
 
     private fun initRecyclerView() {
         binding.rcvWeatherWeek.adapter = adapter

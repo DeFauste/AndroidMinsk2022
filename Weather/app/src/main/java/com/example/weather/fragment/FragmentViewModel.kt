@@ -1,7 +1,6 @@
 package com.example.weather.fragment
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +10,8 @@ import com.example.weather.database.CityRepository
 import com.example.weather.remote.DataDistribution
 import com.example.weather.remote.RetrofitInstance
 import com.example.weather.remote.data.Weather
-import com.example.weather.remote.data.WeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -62,7 +59,7 @@ class FragmentViewModel : ViewModel() {
             }
         }
     }
-    fun readCity(): Flow<List<Weather>> {
+    fun readCityWeather(): Flow<List<Weather>> {
         viewModelScope.launch {
             readCity = repository.readCity
         }
