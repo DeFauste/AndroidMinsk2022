@@ -15,8 +15,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        fragmentViewModel.initDatabase(this)
-//        setupActionBarWithNavController(findNavController(R.id.fragmentContainerView))
     }
 
     override fun onStart() {

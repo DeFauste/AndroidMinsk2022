@@ -36,7 +36,6 @@ class CityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentCityBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)?.supportActionBar?.show()
         return binding.root
