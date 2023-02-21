@@ -21,7 +21,7 @@ class FragmentViewModel : ViewModel() {
     private var readCity: Flow<List<City>> = flow {
         this.emit(repository.readCity.first())
     }
-
+    fun getCurrentCity() = readCity
     fun initDatabase(context: Context) {
         val cityDao = CityDatabase.getDatabase(context).cityDao()
         repository = CityRepository((cityDao))

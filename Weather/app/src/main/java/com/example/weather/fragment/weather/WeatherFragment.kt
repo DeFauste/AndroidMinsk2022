@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.fragment.FragmentViewModel
+import kotlinx.coroutines.flow.first
 
 
 class WeatherFragment : Fragment() {
@@ -58,6 +59,7 @@ class WeatherFragment : Fragment() {
             fragmentViewModel.readCityWeather().collect() {
                 val weather = it[0]
                 with(binding) {
+                    txtCurCity.text = fragmentViewModel.getCurrentCity().first()[0].cityName
                     txtCurDate.text = weather.dt_txt.split(" ")[0]
                     txtTemperature.text = weather.main.temp.toInt().toString()
                     txtWeatherSum.text = weather.weather[0].main
