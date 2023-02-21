@@ -39,13 +39,12 @@ class WeatherFragment : Fragment() {
         /*hide action bar*/
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         fragmentViewModel.initDatabase(requireContext())
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(fragmentViewModel.getLength() == 0) Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
+        setLengthCity(view)
 
         binding.btnAddCity.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
@@ -54,23 +53,33 @@ class WeatherFragment : Fragment() {
         updateCurrentWeather()
         initRecyclerView()
     }
+    private fun setLengthCity(view: View) {
+        lifecycleScope.launchWhenCreated {
+            fragmentViewModel.readAllData().collect() {
+                if(it.isEmpty()) Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
+
+            }
+        }
+    }
     private fun update() = fragmentViewModel.readCityWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {
             fragmentViewModel.readCityWeather().collect() {
-                val weather = it[0]
-                with(binding) {
-                    txtCurCity.text = fragmentViewModel.getCurrentCity().first()[0].cityName
-                    txtCurDate.text = weather.dt_txt.split(" ")[0]
-                    txtTemperature.text = weather.main.temp.toInt().toString()
-                    txtWeatherSum.text = weather.weather[0].main
-                    val idImg = weather.weather[0].icon
-                    Glide
-                        .with(txtWeatherSum)
-                        .load("https://openweathermap.org/img/wn/$idImg@2x.png")
-                        .centerCrop()
-                        .placeholder(R.drawable.progress_bar)
-                        .into(imgIcWeather)
+                if (it.isNotEmpty()) {
+                    val weather = it[0]
+                    with(binding) {
+                        txtCurCity.text = fragmentViewModel.getCurrentCity().first()[0].cityName
+                        txtCurDate.text = weather.dt_txt.split(" ")[0]
+                        txtTemperature.text = weather.main.temp.toInt().toString()
+                        txtWeatherSum.text = weather.weather[0].main
+                        val idImg = weather.weather[0].icon
+                        Glide
+                            .with(txtWeatherSum)
+                            .load("https://openweathermap.org/img/wn/$idImg@2x.png")
+                            .centerCrop()
+                            .placeholder(R.drawable.progress_bar)
+                            .into(imgIcWeather)
+                    }
                 }
             }
         }
@@ -80,6 +89,7 @@ class WeatherFragment : Fragment() {
         binding.rcvWeatherWeek.adapter = adapter
         lifecycleScope.launchWhenCreated {
             fragmentViewModel.readCityWeather().collect() {
+                if(it.isNotEmpty())
                 adapter.weathers = it.subList(1, 5)
             }
         }

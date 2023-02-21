@@ -20,7 +20,7 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() 
 
     private val diffCallback = object : DiffUtil.ItemCallback<Weather>() {
         override fun areItemsTheSame(oldItem: Weather, newItem: Weather): Boolean {
-            return oldItem.dt == newItem.dt
+            return oldItem.weather == newItem.weather
         }
 
         override fun areContentsTheSame(oldItem: Weather, newItem: Weather): Boolean {

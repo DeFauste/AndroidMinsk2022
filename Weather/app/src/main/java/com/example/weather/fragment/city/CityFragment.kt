@@ -38,6 +38,8 @@ class CityFragment : Fragment() {
     ): View? {
         _binding = FragmentCityBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)?.supportActionBar?.show()
+        fragmentViewModel.initDatabase(requireContext())
+
         return binding.root
     }
 
