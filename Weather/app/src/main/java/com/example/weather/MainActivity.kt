@@ -8,6 +8,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.weather.fragment.FragmentViewModel
 
 
+
 class MainActivity : AppCompatActivity() {
 
     private val fragmentViewModel: FragmentViewModel by viewModels()
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         fragmentViewModel.initDatabase(this)
         setupActionBarWithNavController(findNavController(R.id.fragmentContainerView))
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -29,6 +29,7 @@ class FragmentViewModel : ViewModel() {
         readCity = repository.readCity
     }
 
+    fun getLength() = viewModelScope.launch {  repository.getLength()}
     fun checkCity(cityName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateCheck(cityName)

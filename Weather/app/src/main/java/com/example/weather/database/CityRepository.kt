@@ -15,4 +15,7 @@ class CityRepository(private val cityDao: CityDao) {
         cityDao.checkCity(cityName)
         cityDao.updateChecked(cityName)
     }
+
+    fun getLength() = cityDao.getLength()
+
 }

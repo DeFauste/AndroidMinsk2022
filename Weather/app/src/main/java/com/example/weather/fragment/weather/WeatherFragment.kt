@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.fragment.FragmentViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 
 
@@ -44,6 +45,7 @@ class WeatherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(fragmentViewModel.getLength() == 0) Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
 
         binding.btnAddCity.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
@@ -52,7 +54,6 @@ class WeatherFragment : Fragment() {
         updateCurrentWeather()
         initRecyclerView()
     }
-
     private fun update() = fragmentViewModel.readCityWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {

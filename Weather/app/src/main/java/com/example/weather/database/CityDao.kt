@@ -20,5 +20,7 @@ interface CityDao {
 
     @Query("SELECT * FROM city_table WHERE checkCity IS :checkN")
     fun getCurrentCity(checkN:Int = 1):Flow<List<City>>
+    @Query("SELECT COUNT(*) FROM city_table")
+    fun getLength():Int
 
 }
