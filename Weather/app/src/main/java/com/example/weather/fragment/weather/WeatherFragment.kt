@@ -26,11 +26,6 @@ class WeatherFragment : Fragment() {
 
     private val adapter: WeatherAdapter = WeatherAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -45,13 +40,13 @@ class WeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLengthCity(view)
+        binding.rcvWeatherWeek.adapter = adapter
 
         binding.btnAddCity.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
         }
         update()
         updateCurrentWeather()
-        initRecyclerView()
     }
     private fun setLengthCity(view: View) {
         lifecycleScope.launchWhenCreated {
@@ -61,11 +56,16 @@ class WeatherFragment : Fragment() {
             }
         }
     }
+
     private fun update() = fragmentViewModel.readCityWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {
             fragmentViewModel.readCityWeather().collect() {
                 if (it.isNotEmpty()) {
+                    fragmentViewModel.readCityWeather().collect() {
+                        adapter.weathers = it.subList(1, 5)
+                    }
+
                     val weather = it[0]
                     with(binding) {
                         txtCurCity.text = fragmentViewModel.getCurrentCity().first()[0].cityName
@@ -80,17 +80,9 @@ class WeatherFragment : Fragment() {
                             .placeholder(R.drawable.progress_bar)
                             .into(imgIcWeather)
                     }
-                }
-            }
-        }
-    }
 
-    private fun initRecyclerView() {
-        binding.rcvWeatherWeek.adapter = adapter
-        lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readCityWeather().collect() {
-                if(it.isNotEmpty())
-                adapter.weathers = it.subList(1, 5)
+
+                }
             }
         }
     }
