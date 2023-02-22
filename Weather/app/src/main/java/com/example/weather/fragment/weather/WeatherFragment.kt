@@ -48,10 +48,12 @@ class WeatherFragment : Fragment() {
         update()
         updateCurrentWeather()
     }
+
     private fun setLengthCity(view: View) {
         lifecycleScope.launchWhenCreated {
             fragmentViewModel.readAllData().collect() {
-                if(it.isEmpty()) Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
+                if (it.isEmpty()) Navigation.findNavController(view)
+                    .navigate(R.id.action_weatherFragment_to_cityFragment)
 
             }
         }
@@ -60,13 +62,13 @@ class WeatherFragment : Fragment() {
     private fun update() = fragmentViewModel.readCityWeather()
     private fun updateCurrentWeather() {
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readCityWeather().collect() {
-                if (it.isNotEmpty()) {
+            fragmentViewModel.readCityWeather().collect() { listWeather ->
+                if (listWeather.isNotEmpty()) {
                     fragmentViewModel.readCityWeather().collect() {
                         adapter.weathers = it.subList(1, 5)
                     }
 
-                    val weather = it[0]
+                    val weather = listWeather[0]
                     with(binding) {
                         txtCurCity.text = fragmentViewModel.getCurrentCity().first()[0].cityName
                         txtCurDate.text = weather.dt_txt.split(" ")[0]
@@ -80,8 +82,6 @@ class WeatherFragment : Fragment() {
                             .placeholder(R.drawable.progress_bar)
                             .into(imgIcWeather)
                     }
-
-
                 }
             }
         }
