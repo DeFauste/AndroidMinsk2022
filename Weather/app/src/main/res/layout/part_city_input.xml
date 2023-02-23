@@ -18,6 +18,7 @@
         android:inputType="textAutoCorrect"
         android:hint="@string/input_city"
         android:paddingStart="0dp"
+        android:textColor="@color/black"
         android:paddingEnd="0dp"
         android:selectAllOnFocus="true"
    />
