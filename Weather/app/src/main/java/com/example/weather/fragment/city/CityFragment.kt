@@ -57,7 +57,7 @@ class CityFragment : Fragment() {
         binding.rcvCityList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readAllData().collect() {
+            fragmentViewModel.readAllCity().collect() {
                 adapter.cites = it
                 println(it)
             }

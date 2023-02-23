@@ -16,7 +16,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class FragmentViewModel : ViewModel() {
-    private lateinit var readAllData: Flow<List<City>>
+    private lateinit var readAllCity: Flow<List<City>>
     private lateinit var repository: CityRepository
     private var readCity: Flow<List<City>> = flow {
         this.emit(repository.readCity.first())
@@ -27,7 +27,7 @@ class FragmentViewModel : ViewModel() {
     fun initDatabase(context: Context) {
         val cityDao = CityDatabase.getDatabase(context).cityDao()
         repository = CityRepository((cityDao))
-        readAllData = repository.readAllData
+        readAllCity = repository.readAllData
         readCity = repository.readCity
     }
 
@@ -45,21 +45,23 @@ class FragmentViewModel : ViewModel() {
         }
     }
 
-    fun readAllData(): Flow<List<City>> {
-        return readAllData
+    fun readAllCity(): Flow<List<City>> {
+        return readAllCity
     }
 
-    private var weatherListS: Flow<List<Weather>> = flow {
-        viewModelScope.launch(Dispatchers.IO) {
+    private var _wSharedFlow = MutableSharedFlow<List<Weather>>()
+    val wSharedFlow = _wSharedFlow.asSharedFlow()
+    fun updateWeather() {
+        viewModelScope.launch() {
+            readCity = repository.readCity
             readCity.collect() { city ->
                 if (city.isNotEmpty()) {
                     try {
                         val response =
                             RetrofitInstance.api.getWeather(city.first().cityName, "eng", "metric")
                                 .body()?.list
-                        weatherListS = flow {
-                            emit(DataDistribution().getWeekWeather(response ?: arrayListOf()))
-                        }
+                        _wSharedFlow.emit(DataDistribution().getWeekWeather(response
+                            ?: arrayListOf()))
                     } catch (e: IOException) {
                         println("onCreate: not internet")
                     } catch (e: HttpException) {
@@ -68,12 +70,5 @@ class FragmentViewModel : ViewModel() {
                 }
             }
         }
-    }
-
-    fun readCityWeather(): Flow<List<Weather>> {
-        viewModelScope.launch {
-            readCity = repository.readCity
-        }
-        return weatherListS
     }
 }

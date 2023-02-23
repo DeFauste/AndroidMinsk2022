@@ -13,7 +13,6 @@
         android:layout_marginTop="28dp"
         android:gravity="top"
         android:lineSpacingExtra="5sp"
-        android:textColor="@color/black"
         android:textSize="16sp"
         android:translationY="-2.62sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,5 +29,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:buttonTint="@color/black"/>
+        android:clickable="false"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

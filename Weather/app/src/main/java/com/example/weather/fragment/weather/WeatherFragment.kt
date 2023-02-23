@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.FragmentWeatherBinding
 import com.example.weather.fragment.FragmentViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 
 
@@ -25,6 +25,7 @@ class WeatherFragment : Fragment() {
     private val fragmentViewModel: FragmentViewModel by activityViewModels()
 
     private val adapter: WeatherAdapter = WeatherAdapter()
+    private lateinit var jobWeather: Job
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,13 +46,12 @@ class WeatherFragment : Fragment() {
         binding.btnAddCity.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_weatherFragment_to_cityFragment)
         }
-        update()
         updateCurrentWeather()
     }
 
     private fun setLengthCity(view: View) {
         lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readAllData().collect() {
+            fragmentViewModel.readAllCity().collect() {
                 if (it.isEmpty()) Navigation.findNavController(view)
                     .navigate(R.id.action_weatherFragment_to_cityFragment)
 
@@ -59,15 +59,12 @@ class WeatherFragment : Fragment() {
         }
     }
 
-    private fun update() = fragmentViewModel.readCityWeather()
     private fun updateCurrentWeather() {
-        lifecycleScope.launchWhenCreated {
-            fragmentViewModel.readCityWeather().collect() { listWeather ->
+        fragmentViewModel.updateWeather()
+        jobWeather = lifecycleScope.launchWhenCreated {
+            fragmentViewModel.wSharedFlow.collect() { listWeather ->
                 if (listWeather.isNotEmpty()) {
-                    fragmentViewModel.readCityWeather().collect() {
-                        adapter.weathers = it.subList(1, 5)
-                    }
-
+                    adapter.weathers = listWeather.subList(1, 5)
                     val weather = listWeather[0]
                     with(binding) {
                         txtCurCity.text = fragmentViewModel.getCurrentCity().first()[0].cityName
@@ -90,5 +87,7 @@ class WeatherFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        jobWeather.cancel()
+        adapter.weathers = emptyList()
     }
 }
