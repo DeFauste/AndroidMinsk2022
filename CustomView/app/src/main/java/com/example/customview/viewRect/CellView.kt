@@ -5,8 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.text.BoringLayout
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import com.example.customview.R
 import kotlin.math.max
@@ -38,6 +40,8 @@ class CellView(
     private lateinit var cellPaint: Paint
     private lateinit var borderPaint: Paint
 
+    private var check:Boolean = false
+
     init {
         if (attrs != null) {
             initColor(attrs, defStyleAttr, defStyleRes)
@@ -58,6 +62,11 @@ class CellView(
         borderPaint.strokeWidth = 25f
     }
 
+    override fun performClick(): Boolean {
+        check = !check
+        invalidate()
+        return super.performClick()
+    }
     private fun initColor(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
         val typedArray =
             context.obtainStyledAttributes(attrs, R.styleable.CellView, defStyleAttr, defStyleRes)
@@ -66,7 +75,9 @@ class CellView(
 
         typedArray.recycle()
     }
-
+    fun setCheck(checked: Boolean) {
+        check = checked
+    }
     private fun getRndColor(): Int {
         return Color.argb(255, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256))
     }
@@ -74,7 +85,7 @@ class CellView(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawRect(fieldRect.left, fieldRect.top, fieldRect.right, fieldRect.bottom, cellPaint)
-        canvas.drawRect(fieldRect.left, fieldRect.top, fieldRect.right, fieldRect.bottom, borderPaint)
+        if(check) canvas.drawRect(fieldRect.left, fieldRect.top, fieldRect.right, fieldRect.bottom, borderPaint)
 
     }
 
