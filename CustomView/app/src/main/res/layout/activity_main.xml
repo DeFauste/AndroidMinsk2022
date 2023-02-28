@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainConstraint"
     tools:context=".MainActivity">
 
 
@@ -16,7 +17,8 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_android"/>
+        android:src="@drawable/ic_android"
+        />
 
     <com.example.customview.viewRect.CellView
         android:id="@+id/color_1"
