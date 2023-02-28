@@ -80,10 +80,10 @@ class CellView(
         val desiredWith =
             max(minWidth, desiredCellSizePixels + paddingRight + paddingLeft)
         val desireHeight = max(minHeight, desiredCellSizePixels + paddingTop + paddingBottom)
-
+        val side = kotlin.math.min(resolveSize(desiredWith, widthMeasureSpec), resolveSize(desireHeight, heightMeasureSpec))
         setMeasuredDimension(
-            resolveSize(desiredWith, widthMeasureSpec),
-            resolveSize(desireHeight, heightMeasureSpec)
+            side,
+            side
         )
     }
 
