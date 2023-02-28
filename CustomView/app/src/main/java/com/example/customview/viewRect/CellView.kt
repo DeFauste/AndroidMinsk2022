@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import com.example.customview.R
-import java.lang.Float.min
 import kotlin.math.max
 import kotlin.properties.Delegates
 import kotlin.random.Random
@@ -21,10 +20,12 @@ class CellView(
     defStyleRes: Int,
 ) :
     View(context, attrs, defStyleAttr, defStyleRes) {
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context,
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
         attrs,
         defStyleAttr,
-        0)
+        0
+    )
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context) : this(context, null)
@@ -35,6 +36,7 @@ class CellView(
     private var cellPadding: Float = 0f
 
     private lateinit var cellPaint: Paint
+    private lateinit var borderPaint: Paint
 
     init {
         if (attrs != null) {
@@ -49,6 +51,11 @@ class CellView(
         cellPaint = Paint(Paint.ANTI_ALIAS_FLAG)
         cellPaint.color = cellColor
         cellPaint.style = Paint.Style.FILL_AND_STROKE
+
+        borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        borderPaint.color = Color.RED
+        borderPaint.style = Paint.Style.STROKE
+        borderPaint.strokeWidth = 25f
     }
 
     private fun initColor(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
@@ -67,20 +74,30 @@ class CellView(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawRect(fieldRect.left, fieldRect.top, fieldRect.right, fieldRect.bottom, cellPaint)
+        canvas.drawRect(fieldRect.left, fieldRect.top, fieldRect.right, fieldRect.bottom, borderPaint)
+
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val minWidth = suggestedMinimumWidth + paddingLeft + paddingRight
         val minHeight = suggestedMinimumHeight + paddingTop + paddingBottom
-        val cellRec = kotlin.math.min(MeasureSpec.getSize(widthMeasureSpec),MeasureSpec.getSize(heightMeasureSpec))
+        val cellRec = kotlin.math.min(
+            MeasureSpec.getSize(widthMeasureSpec),
+            MeasureSpec.getSize(heightMeasureSpec)
+        )
 
         val desiredCellSizePixels =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, cellRec.toFloat(),
-                resources.displayMetrics).toInt()
-        val desiredWith =
-            max(minWidth, desiredCellSizePixels + paddingRight + paddingLeft)
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, cellRec.toFloat(),
+                resources.displayMetrics
+            ).toInt()
+
+        val desiredWith = max(minWidth, desiredCellSizePixels + paddingRight + paddingLeft)
         val desireHeight = max(minHeight, desiredCellSizePixels + paddingTop + paddingBottom)
-        val side = kotlin.math.min(resolveSize(desiredWith, widthMeasureSpec), resolveSize(desireHeight, heightMeasureSpec))
+        val side = kotlin.math.min(
+            resolveSize(desiredWith, widthMeasureSpec),
+            resolveSize(desireHeight, heightMeasureSpec)
+        )
         setMeasuredDimension(
             side,
             side
@@ -96,9 +113,10 @@ class CellView(
         val safeWidth = width - paddingLeft - paddingRight
         val safeHeight = height - paddingTop - paddingBottom
 
-        cellSize = min(safeWidth.toFloat(), safeHeight.toFloat())
+        cellSize = height.toFloat()
         cellSize = width.toFloat()
         cellPadding = cellSize * 0.2f
+
         val fieldWith = cellSize
         val fieldHeight = cellSize
 
